@@ -103,7 +103,7 @@ const footer = () => `
       </div>
     </div>
     <hr>
-    <p class="small">© 2026 BestaCare Life Services Agency. Navi Mumbai.</p>
+    <p class="small">© 2026 BestaCare Life Services Agency. Mumbai, Pune and Maharashtra.</p>
   </div>
 </footer>`;
 
@@ -254,12 +254,12 @@ const dos = ['Bathing, dressing and personal hygiene', 'Feeding and medicines on
 page({
   file: 'index.html', active: 'home', bodyClass: 'home',
   title: 'BestaCare · Trained care for your family, at home',
-  desc: 'Caretakers, nurses and attendants for day, night or 24 hours in Navi Mumbai. Tell us about the patient and we call you back within 5 minutes.',
+  desc: 'Caretakers, nurses and attendants for day, night or 24 hours in Mumbai, Pune and across Maharashtra. Tell us about the patient and we call you back within 5 minutes.',
   body: `
 <section class="hero">
   <div class="wrap hero__in">
     <div class="hero__text">
-      <span class="eyebrow">Navi Mumbai · Home and hospital care</span>
+      <span class="eyebrow">Mumbai, Pune &amp; Maharashtra · Home and hospital care</span>
       <h1 class="h-display">Trained care for your family, <em>at home</em></h1>
       <p class="lead">Caretakers, nurses and attendants for day, night or 24 hours. Tell us about the patient and we call you back.</p>
       <div class="ticks"><span class="tick">${ic('circle-check')}Male and female staff</span><span class="tick">${ic('circle-check')}12 or 24 hour shifts</span><span class="tick">${ic('circle-check')}Home or hospital</span></div>
@@ -269,7 +269,6 @@ page({
       <div class="stage__photo"><img src="${photo('care')}"${pos('care')} alt="A BestaCare caretaker helping an elderly patient at home" fetchpriority="high"></div>
       <div class="hero-m-title" aria-hidden="true"><span class="promise">${ic('clock', 'i--18')}Call back in 5 minutes</span><p class="hero-m-h">Trained care for your family, at home</p></div>
       <div class="float" style="left:-48px;top:470px"><span class="circle">${ic('clock')}</span><div><strong>Call back</strong><span>within 5 minutes</span></div></div>
-      <div class="float" style="left:300px;top:32px"><span class="circle">${ic('star')}</span><div><strong>0.0 on Google</strong><span>Rating to add</span></div></div>
     </div>
   <div class="quick" aria-label="What do you need?">
     <div class="quick__head"><span>What do you need?</span><a href="services.html">See all</a></div>
@@ -281,7 +280,6 @@ page({
 <section class="stats">
   <div class="wrap stats__row">
     <!-- TODO: replace these placeholder numbers with real figures before launch -->
-    <div class="stat"><strong>0.0</strong><span>Google rating</span></div>
     <div class="stat"><strong>00</strong><span>Years of care</span></div>
     <div class="stat"><strong>0,000</strong><span>Families helped</span></div>
     <div class="stat"><strong>7</strong><span>Kinds of care</span></div>
@@ -499,16 +497,16 @@ ${pageHead([['index.html', 'Home'], ['', 'Contact']], 'Talk to us', 'Call, Whats
 /* ---------- ABOUT ---------- */
 page({
   file: 'about.html', active: 'about',
-  title: 'About BestaCare', desc: 'BestaCare gives patient care at home from Navi Mumbai. A person answers, we meet every caretaker, and we stay in touch.',
+  title: 'About BestaCare', desc: 'BestaCare gives patient care at home in Mumbai, Pune and across Maharashtra. A person answers, we meet every caretaker, and we stay in touch.',
   body: `
-${pageHead([['index.html', 'Home'], ['', 'About']], 'About BestaCare', 'Patient care at home, from Navi Mumbai.')}
+${pageHead([['index.html', 'Home'], ['', 'About']], 'About BestaCare', 'Patient care at home, across Mumbai, Pune and Maharashtra.')}
 <section class="sec" style="padding:56px 0 32px">
   <div class="wrap" style="display:flex;gap:64px;align-items:center;flex-wrap:wrap">
     <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:16px;align-items:flex-start"><span class="eyebrow">Our story</span><h2 class="h-2">Why BestaCare started</h2>
       <p class="muted">Most families don't plan for the day a parent comes home from hospital, or a newborn needs help round the clock. It usually arrives suddenly, often at night. Then comes the hard part: who can we trust in our home?</p>
-      <p class="muted">In Koparkhairane and across Navi Mumbai we saw families searching through agents and phone numbers, never sure who would turn up or whether they were trained. BestaCare began to change that.</p>
+      <p class="muted">Across Mumbai, Pune and the rest of Maharashtra we saw families searching through agents and phone numbers, never sure who would turn up or whether they were trained. BestaCare began to change that.</p>
       <p class="muted">We train every caretaker, nurse and attendant before they work with a family. We check their identity and background. And we stay in touch after they start, because good care needs someone who answers when you call.</p>
-      <p class="muted">Today we help families with patient care, home nursing, elderly care and baby care, for a few hours, a night or round the clock, so you can go to work, rest or sleep knowing your loved one is in good hands.</p>
+      <p class="muted">Today we help families across Mumbai, Pune and the rest of Maharashtra with patient care, home nursing, elderly care and baby care, for a few hours, a night or round the clock, so you can go to work, rest or sleep knowing your loved one is in good hands.</p>
       <blockquote class="founder-q"><span class="quote-ic">${ic('quote', 'i--28')}</span><p>Every family deserves care they don't have to worry about.</p><cite>Sharif Khan, Founder</cite></blockquote>
     </div>
     <div class="team-photo" style="width:520px;max-width:100%;height:380px"><img src="${photo('train')}"${pos('train')} alt="Sample photo" loading="lazy"></div>
@@ -518,6 +516,7 @@ ${pageHead([['index.html', 'Home'], ['', 'About']], 'About BestaCare', 'Patient 
   <div class="wrap" style="display:flex;flex-direction:column;gap:32px">
     <div class="heading"><span class="eyebrow">Our values</span><h2 class="h-2">How we work</h2></div>
     <div class="tiles tiles--4 values" style="gap:16px">${[['A person answers', 'You talk to our team, not a machine.', 'phone'], ['We meet every caretaker', 'No one goes to a family before we meet them.', 'user'], ['We stay in touch', 'If something is not right, call us. We fix it.', 'refresh'], ['Your choice matters', 'Ask for a male or female caretaker.', 'users']].map(([h, p, i]) => `<div class="tile rv"><span class="tile__ic">${ic(i, 'i--22')}</span><div><h3>${h}</h3><p>${p}</p></div></div>`).join('')}</div>
+    <div class="cta-bar rv"><span class="tile__ic">${ic('help', 'i--26')}</span><div class="cta-bar__t"><h3>Not sure what you need?</h3><p>Tell us about the patient. We help you choose.</p></div><button class="btn btn--call" type="button" data-open-callback>${ic('phone')}Call me back</button></div>
   </div>
 </section>
 ${gallery}
@@ -616,7 +615,7 @@ ${pageHead([['index.html', 'Home'], ['', 'Work with us']], 'Work with BestaCare'
         <label class="drop"><span class="drop__ic">${ic('upload', 'i--22')}</span><span><b>${add}</b><span>${hint}</span></span><input type="file" accept="image/*,application/pdf"${multi ? ' multiple' : ''}></label>
         <p class="err" role="alert" hidden>${ic('alert', 'i--16')}<span></span></p>
       </div>`).join('')}
-      <p class="privacy-line">${ic('shield')}We keep your documents private and delete them if you ask.</p>
+      <p class="privacy-line">${ic('shield')}Your documents are kept private. Only BestaCare staff and the family you are matched with, for background checks, can see them. We delete them if you ask.</p>
       <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="err" role="alert" data-submit-err hidden>${ic('alert', 'i--16')}<span></span></p>
       <button class="btn btn--call btn--lg btn--block" type="submit">Send my application ${ic('arrow-right')}</button>

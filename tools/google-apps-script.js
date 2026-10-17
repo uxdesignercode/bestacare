@@ -4,8 +4,8 @@
  * WHAT IT DOES
  *  - Call-back requests (every call-back form on the site) -> sheet tab "Call backs"
  *  - Job applications (Work with us page)                    -> sheet tab "Job applications"
- *    Only the names of the documents the applicant chose are recorded. The files themselves are NOT
- *    stored (that would need Drive permission).
+ *    Each applicant's documents are saved in your Google Drive:  Career / <Name - phone - date> /
+ *    and the sheet row holds a link to that folder.
  *
  * HOW TO DEPLOY (one time, about 5 minutes)
  *  1. Create a new Google Sheet (any name, e.g. "BestaCare enquiries").
@@ -27,9 +27,16 @@
 var SPREADSHEET_ID = '1pzjugvnss2m2DFo8wZ_7rL57x5rAXU9_B90WY-0ggEI';
 
 
+// Drive folder that holds one sub-folder per applicant. Created in My Drive the first time it is needed.
+var ROOT_FOLDER_NAME = 'Career';
+var MAX_FILES = 12;
+var MAX_FILE_BYTES = 7 * 1024 * 1024;
+var ALLOWED_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'application/pdf': 'pdf' };
+var DOC_LABELS = { aadhaar: 'Aadhaar', pan: 'PAN', certs: 'Certificate', photo: 'Photo' };
+
 var TABS = {
   callback: { name: 'Call backs', head: ['Time', 'Name', 'Phone', 'Service', 'Shift', 'Form', 'Page'] },
-  job: { name: 'Job applications', head: ['Time', 'Name', 'Phone', 'Role', 'Experience', 'Area', 'Documents chosen (names only)', 'Page'] },
+  job: { name: 'Job applications', head: ['Time', 'Name', 'Phone', 'Role', 'Experience', 'Area', 'Documents saved', 'Drive folder', 'Page'] },
 };
 
 function doGet() {
@@ -51,8 +58,9 @@ function doPost(e) {
     var row;
 
     if (d.formType === 'job-application') {
+      var saved = saveDocs_(d, phone, when);
       row = [when, clean_(d.name), phoneText, clean_(d.service), clean_(d.experience), clean_(d.area),
-        docNames_(d), clean_(d.page)];
+        saved.summary, saved.url, clean_(d.page)];
       append_(TABS.job, row);
     } else {
       row = [when, clean_(d.name), phoneText, clean_(d.service), clean_(d.shift), clean_(d.form), clean_(d.page)];
@@ -105,16 +113,51 @@ function append_(tab, row) {
   rng.setValues([row]);
 }
 
-function docNames_(d) {
-  var labels = { aadhaar: 'Aadhaar', pan: 'PAN', certs: 'Certificates', photo: 'Photo' };
-  return (d.files || []).slice(0, 12).map(function (f) {
-    return (labels[f.field] || clean_(f.field)) + ': ' + clean_(f.name);
-  }).join('; ');
+function rootFolder_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('CAREER_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (x) { /* deleted: make a new one */ } }
+  var it = DriveApp.getFoldersByName(ROOT_FOLDER_NAME);
+  var f = it.hasNext() ? it.next() : DriveApp.createFolder(ROOT_FOLDER_NAME);
+  props.setProperty('CAREER_FOLDER_ID', f.getId());
+  return f;
+}
+
+function safeName_(v) {
+  return String(v || '').replace(/[\\\/:*?"<>|\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60) || 'Applicant';
+}
+
+/** Saves the applicant's files to Career/<Name - phone - date>/ and returns {url, summary}. */
+function saveDocs_(d, phone, when) {
+  var files = (d.files || []).slice(0, MAX_FILES);
+  var withData = files.filter(function (f) { return f && f.data; });
+  if (!withData.length) return { url: '', summary: 'No documents' };
+
+  var folder = rootFolder_().createFolder(safeName_(d.name) + ' - ' + phone + ' - ' + when.slice(0, 10));
+  var counts = {}, names = [];
+  withData.forEach(function (f) {
+    var type = String(f.type || '').toLowerCase();
+    var ext = ALLOWED_TYPES[type];
+    if (!ext) return;                                   // not a photo or PDF: skip it
+    var bytes = Utilities.base64Decode(String(f.data));
+    if (bytes.length > MAX_FILE_BYTES) return;
+    var label = DOC_LABELS[f.field] || 'Document';
+    counts[label] = (counts[label] || 0) + 1;
+    var fname = label + (f.field === 'certs' ? ' ' + counts[label] : (counts[label] > 1 ? ' ' + counts[label] : '')) + '.' + ext;
+    folder.createFile(Utilities.newBlob(bytes, type, fname));
+    names.push(fname);
+  });
+  return { url: folder.getUrl(), summary: names.join('; ') || 'No valid documents' };
 }
 
 /** Run this once from the editor to check permissions and see the sheet layout. */
 function testSheet() {
   append_(TABS.callback, [new Date().toString(), 'TEST', '+91 98765 43210', 'Patient caretaker', '24 hour', 'test', '/index.html']);
-  append_(TABS.job, [new Date().toString(), 'TEST', '+91 98765 43210', 'Nurse', '1 to 3 years', 'Vashi', 'Aadhaar: test.jpg', '/work-with-us.html']);
+  append_(TABS.job, [new Date().toString(), 'TEST', '+91 98765 43210', 'Nurse', '1 to 3 years', 'Vashi', 'Aadhaar.jpg', '(test)', '/work-with-us.html']);
   Logger.log('Test rows written. You can delete them from the sheet.');
+}
+
+/** Run this once from the editor: it asks you to allow Drive access and creates the "Career" folder. */
+function authorizeDrive() {
+  Logger.log('Career folder: ' + rootFolder_().getUrl());
 }

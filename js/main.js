@@ -207,11 +207,11 @@
      While it is empty, forms still work but nothing is saved: the data is only logged to the console. */
   var SHEET_URL = 'https://script.google.com/macros/s/AKfycbznVHVgepY_UTS4L_Wws2ompVVn_j5rJRmxXGqbYJxyAeHZ5fv_0jVramEBZ2mQv_AWKg/exec';
   var SEND_TIMEOUT = 45000;
-  function sendToSheet(payload) {
+  function sendToSheet(payload, timeoutMs) {
     return new Promise(function (resolve, reject) {
       if (payload.website) { resolve(); return; } // spam trap field was filled: pretend it worked
       if (!SHEET_URL) { if (window.console) console.warn('[BestaCare] SHEET_URL is empty, so this was NOT saved:', payload); resolve(); return; }
-      var timer = setTimeout(function () { reject(new Error('timeout')); }, SEND_TIMEOUT);
+      var timer = setTimeout(function () { reject(new Error('timeout')); }, timeoutMs || SEND_TIMEOUT);
       // text/plain keeps this a "simple" request, which Apps Script accepts from any site without CORS preflight
       fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
         .then(function () { clearTimeout(timer); resolve(); }, function (e) { clearTimeout(timer); reject(e); });
@@ -284,6 +284,26 @@
         r.readAsDataURL(file);
       });
     }
+    // Returns {type, size, data(base64)}. Images are redrawn at max 1600px as JPEG; if that fails the original is sent.
+    function prepare(file) {
+      if (!/^image\//.test(file.type)) return toBase64(file).then(function (d) { return { type: file.type, size: file.size, data: d }; });
+      return new Promise(function (resolve) {
+        var url = URL.createObjectURL(file), img = new Image();
+        function fallback() { URL.revokeObjectURL(url); toBase64(file).then(function (d) { resolve({ type: file.type, size: file.size, data: d }); }); }
+        img.onerror = fallback;
+        img.onload = function () {
+          try {
+            var k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+            var c = doc.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+            var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+            var d = c.toDataURL('image/jpeg', 0.8).split(',')[1];
+            URL.revokeObjectURL(url);
+            resolve({ type: 'image/jpeg', size: Math.round(d.length * 0.75), data: d });
+          } catch (e) { fallback(); }
+        };
+        img.src = url;
+      });
+    }
     function size(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
     function renderFiles(box) {
       var key = box.getAttribute('data-upload');
@@ -353,14 +373,16 @@
       var order = ['aadhaar', 'pan', 'certs', 'photo'];
       var all = [];
       order.forEach(function (k) { (store[k] || []).forEach(function (f) { all.push({ field: k, file: f }); }); });
-      // Only the file names are sent: the sheet script has no Drive access, so the files themselves are not stored.
-      Promise.resolve(all.map(function (x) { return { field: x.field, name: x.file.name, type: x.file.type, size: x.file.size }; }))
+      // Photos are shrunk in the browser first (a phone photo can be 5 MB+); PDFs are sent as they are.
+      Promise.all(all.map(function (x) {
+        return prepare(x.file).then(function (p) { return { field: x.field, name: x.file.name, type: p.type, size: p.size, data: p.data }; });
+      }))
         .then(function (files) {
           return sendToSheet({
             formType: 'job-application', name: name.value.trim(), phone: digits(phone.value), service: role,
             experience: chipValue('experience', jf), area: ($('[name="area"]', jf) || {}).value || '',
             files: files, page: location.pathname, website: ($('input[name="website"]', jf) || {}).value || ''
-          });
+          }, 180000);
         })
         .then(function () {
           busy(submitBtn, false);

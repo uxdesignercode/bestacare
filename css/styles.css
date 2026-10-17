@@ -724,3 +724,16 @@ body { min-width: 320px; }
   .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .gallery__item { grid-column: span 1; aspect-ratio: 1 / 1; border-radius: 16px; }
 }
+
+.tile--about-cta { width: 100%; max-width: 360px; }
+
+.cta-bar { display: flex; align-items: center; gap: 20px; padding: 24px 28px; background: var(--primary); color: var(--on-primary); border-radius: 24px; }
+.cta-bar__t { flex: 1; min-width: 0; }
+.cta-bar h3 { margin: 0 0 4px; }
+.cta-bar p { margin: 0; color: var(--on-primary-muted); }
+.cta-bar .btn { flex: none; }
+@media (max-width: 760px) {
+  .cta-bar { flex-wrap: wrap; padding: 20px; gap: 14px; }
+  .cta-bar__t { flex-basis: calc(100% - 80px); }
+  .cta-bar .btn { width: 100%; justify-content: center; }
+}
