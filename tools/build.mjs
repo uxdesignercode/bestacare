@@ -145,11 +145,12 @@ function callbackForm({ id, variant = 'card', label = 'Call me back', forLine = 
   </div>
   <div class="fld">
     <label class="cbf__label" for="${id}-phone">Your mobile number</label>
-    <div class="field__box${inside ? ' field__box--btn' : ''}">
+    ${inside ? '<div class="field__combo">' : ''}
+    <div class="field__box">
       <span class="cc">+91</span>
       <input id="${id}-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" data-ph-m="Your number" maxlength="11" aria-describedby="${id}-help">
-      ${inside ? btn : ''}
     </div>
+    ${inside ? btn + '</div>' : ''}
     <p class="err" role="alert" hidden>${ic('alert', 'i--16')}<span></span></p>
     <p class="helper" id="${id}-help">We use it only to call you about care.</p>
   </div>
@@ -193,8 +194,10 @@ const tile = (s, extra = '') => `
 
 /* Video box. With a link in tools/data.mjs (VIDEOS) it plays in place when tapped; without one it stays a placeholder. */
 const vid = (key, title) => {
-  const v = VIDEOS[key] || {};
+  let v = VIDEOS[key] || {};
   const attrs = v.src ? ` data-video="${esc(v.src)}" data-title="${esc(title)}"${v.poster ? ` data-poster="${esc(v.poster)}"` : ''}` : '';
+  const yt = v.src && v.src.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+  if (yt && !v.poster) v = { ...v, poster: `https://i.ytimg.com/vi/${yt[1]}/hqdefault.jpg` }; // small cover image only; the player loads on tap
   const bg = v.poster ? ` style="background-image:url('${esc(v.poster)}')"` : '';
   return `<div class="vid${v.poster ? ' vid--poster' : ''}"${attrs}${bg}><button type="button" aria-label="${v.src ? 'Play video: ' + esc(title) : 'Video coming soon'}"${v.src ? '' : ' disabled'}>${ic('play', 'i--28')}</button>${v.src ? '' : `<span>Video: ${esc(title)}</span>`}</div>`;
 };
@@ -206,7 +209,7 @@ function page({ file, title, desc, active, body, bodyClass = '' }) {
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}">
   <meta property="og:title" content="${esc(title)}">

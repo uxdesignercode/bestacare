@@ -46,6 +46,10 @@
     });
   });
 
+  /* ---------- hide the bottom bar while a field is focused, so the phone keyboard never pushes it over the form ---------- */
+  doc.addEventListener('focusin', function (e) { if (matchMedia('(max-width: 760px)').matches && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) && e.target.type !== 'checkbox' && e.target.type !== 'radio') doc.body.classList.add('kb'); });
+  doc.addEventListener('focusout', function () { setTimeout(function () { var a = doc.activeElement; if (!a || !/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) doc.body.classList.remove('kb'); }, 50); });
+
   /* ---------- FAQ accordion (one open per list) ---------- */
   $$('[data-accordion]').forEach(function (list) {
     list.addEventListener('click', function (e) {

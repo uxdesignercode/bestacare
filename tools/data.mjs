@@ -121,12 +121,12 @@ export const guides = [
    such as 'assets/video/home.mp4' (.mp4 / .webm). Optional poster image: 'assets/video/home.jpg'.
    Leave '' to keep the grey "Video: ..." placeholder. */
 export const VIDEOS = {
-  home: { src: '', poster: '' },
-  'patient-caretaker': { src: '', poster: '' },
-  'home-nurse': { src: '', poster: '' },
-  'ward-boy': { src: '', poster: '' },
-  'elderly-care': { src: '', poster: '' },
-  'baby-nanny': { src: '', poster: '' },
-  'cancer-care': { src: '', poster: '' },
-  'industrial-nursing': { src: '', poster: '' },
+  home: { src: 'https://youtu.be/mYjeBnFbZTM', poster: '' },
+  'patient-caretaker': { src: 'https://youtu.be/5l8cPYKXVDQ', poster: '' },
+  'home-nurse': { src: 'https://youtu.be/UWXsM4BePcE', poster: '' },
+  'ward-boy': { src: 'https://youtu.be/C-XlNvGL1f0', poster: '' },
+  'elderly-care': { src: 'https://youtu.be/tnptzAotdKY', poster: '' },
+  'baby-nanny': { src: 'https://youtu.be/hklWqZxbw7g', poster: '' },
+  'cancer-care': { src: 'https://youtu.be/1M3buwbU7lU', poster: '' },
+  'industrial-nursing': { src: 'https://youtu.be/uv16sKnaeYE', poster: '' },
 };

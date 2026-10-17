@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>BestaCare · Trained care for your family, at home</title>
   <meta name="description" content="Caretakers, nurses and attendants for day, night or 24 hours in Navi Mumbai. Tell us about the patient and we call you back within 5 minutes.">
   <meta property="og:title" content="BestaCare · Trained care for your family, at home">
@@ -50,11 +50,12 @@
   </div>
   <div class="fld">
     <label class="cbf__label" for="hero-phone">Your mobile number</label>
-    <div class="field__box field__box--btn">
+    <div class="field__combo">
+    <div class="field__box">
       <span class="cc">+91</span>
       <input id="hero-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" data-ph-m="Your number" maxlength="11" aria-describedby="hero-help">
-      <button class="btn btn--call" type="submit"><svg class="i " aria-hidden="true"><use href="#i-phone"/></svg><span class="d-only">Call me back</span><span class="m-only">Call back</span></button>
     </div>
+    <button class="btn btn--call" type="submit"><svg class="i " aria-hidden="true"><use href="#i-phone"/></svg><span class="d-only">Call me back</span><span class="m-only">Call back</span></button></div>
     <p class="err" role="alert" hidden><svg class="i i--16" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
     <p class="helper" id="hero-help">We use it only to call you about care.</p>
   </div>
@@ -67,7 +68,7 @@
       <div class="stage__photo"><img src="assets/img/photo-care.jpg" style="object-position:77% 50%" alt="A BestaCare caretaker helping an elderly patient at home" fetchpriority="high"></div>
       <div class="hero-m-title" aria-hidden="true"><span class="promise"><svg class="i i--18" aria-hidden="true"><use href="#i-clock"/></svg>Call back in 5 minutes</span><p class="hero-m-h">Trained care for your family, at home</p></div>
       <div class="float" style="left:-48px;top:470px"><span class="circle"><svg class="i " aria-hidden="true"><use href="#i-clock"/></svg></span><div><strong>Call back</strong><span>within 5 minutes</span></div></div>
-      <!-- <div class="float" style="left:300px;top:32px"><span class="circle"><svg class="i " aria-hidden="true"><use href="#i-star"/></svg></span><div><strong>0.0 on Google</strong><span>Rating to add</span></div></div> -->
+      <div class="float" style="left:300px;top:32px"><span class="circle"><svg class="i " aria-hidden="true"><use href="#i-star"/></svg></span><div><strong>0.0 on Google</strong><span>Rating to add</span></div></div>
     </div>
   <div class="quick" aria-label="What do you need?">
     <div class="quick__head"><span>What do you need?</span><a href="services.html">See all</a></div>
@@ -79,9 +80,9 @@
 <section class="stats">
   <div class="wrap stats__row">
     <!-- TODO: replace these placeholder numbers with real figures before launch -->
-    <!-- <div class="stat"><strong>0.0</strong><span>Google rating</span></div> -->
-    <div class="stat"><strong>05</strong><span>Years of care</span></div>
-    <div class="stat"><strong>10,000</strong><span>Families helped</span></div>
+    <div class="stat"><strong>0.0</strong><span>Google rating</span></div>
+    <div class="stat"><strong>00</strong><span>Years of care</span></div>
+    <div class="stat"><strong>0,000</strong><span>Families helped</span></div>
     <div class="stat"><strong>7</strong><span>Kinds of care</span></div>
   </div>
 </section>
@@ -117,7 +118,7 @@
 <section class="sec--tight" style="padding-bottom:88px">
   <div class="wrap"><div class="band on-dark rv">
     <div class="band__text"><span class="eyebrow">Watch</span><h2 class="h-2">See how we care</h2><p class="lead">A short video from our team. See who comes to your home and what they do in a day.</p></div>
-    <div class="vid"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/mYjeBnFbZTM?si=rzLDHDpGaPnGEism" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+    <div class="vid vid--poster" data-video="https://youtu.be/mYjeBnFbZTM" data-title="How BestaCare works" style="background-image:url('https://i.ytimg.com/vi/mYjeBnFbZTM/hqdefault.jpg')"><button type="button" aria-label="Play video: How BestaCare works"><svg class="i i--28" aria-hidden="true"><use href="#i-play"/></svg></button></div>
   </div></div>
 </section>
 
@@ -189,11 +190,12 @@
   </div>
   <div class="fld">
     <label class="cbf__label" for="fin-phone">Your mobile number</label>
+    
     <div class="field__box">
       <span class="cc">+91</span>
       <input id="fin-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" data-ph-m="Your number" maxlength="11" aria-describedby="fin-help">
-      
     </div>
+    
     <p class="err" role="alert" hidden><svg class="i i--16" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
     <p class="helper" id="fin-help">We use it only to call you about care.</p>
   </div>
@@ -267,11 +269,12 @@
   </div>
   <div class="fld">
     <label class="cbf__label" for="dlg-phone">Your mobile number</label>
+    
     <div class="field__box">
       <span class="cc">+91</span>
       <input id="dlg-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" data-ph-m="Your number" maxlength="11" aria-describedby="dlg-help">
-      
     </div>
+    
     <p class="err" role="alert" hidden><svg class="i i--16" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
     <p class="helper" id="dlg-help">We use it only to call you about care.</p>
   </div>
