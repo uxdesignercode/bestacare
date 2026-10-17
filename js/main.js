@@ -46,6 +46,20 @@
     });
   });
 
+  /* ---------- gallery: tap a photo to see it larger ---------- */
+  $$('.gallery__item').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var box = doc.createElement('div'); box.className = 'lightbox'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', 'Photo');
+      var img = doc.createElement('img'); img.src = b.getAttribute('data-full'); img.alt = b.getAttribute('data-alt') || '';
+      var x = doc.createElement('button'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.innerHTML = '&times;';
+      box.appendChild(img); box.appendChild(x); doc.body.appendChild(box);
+      function close() { box.remove(); doc.removeEventListener('keydown', key); b.focus(); }
+      function key(e) { if (e.key === 'Escape') close(); }
+      box.addEventListener('click', function (e) { if (e.target !== img) close(); });
+      doc.addEventListener('keydown', key); x.focus();
+    });
+  });
+
   /* ---------- hide the bottom bar while a field is focused, so the phone keyboard never pushes it over the form ---------- */
   doc.addEventListener('focusin', function (e) { if (matchMedia('(max-width: 760px)').matches && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) && e.target.type !== 'checkbox' && e.target.type !== 'radio') doc.body.classList.add('kb'); });
   doc.addEventListener('focusout', function () { setTimeout(function () { var a = doc.activeElement; if (!a || !/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) doc.body.classList.remove('kb'); }, 50); });

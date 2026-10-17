@@ -241,6 +241,13 @@ ${dialog}
 
 /* ---------- HOME ---------- */
 const quick = [['hand-heart', 'Caretaker', 0], ['stethoscope', 'Nurse', 1], ['bed', 'Ward boy', 2], ['heart', 'Elderly', 3], ['baby', 'Baby', 4], ['ribbon', 'Cancer', 5], ['factory', 'Industrial', 6]];
+const gallery = `<section class="sec--tight" style="padding-bottom:0">
+  <div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+    <div class="heading rv"><span class="eyebrow">Our work</span><h2 class="h-2">Care at home, as it happens</h2><p class="lead">Real photos from our work with families. Tap a photo to see it larger.</p></div>
+    <div class="gallery">${[['work-1', 'A BestaCare caretaker with an elderly patient at home'], ['work-2', 'Oxygen and breathing support set up at home'], ['work-3', 'Home care with breathing support'], ['work-4', 'Patient on a drip, cared for at home'], ['work-5', 'A home care bed set up with suction and support equipment'], ['work-6', 'A patient resting at home, on a video call with her caretaker']].map(([f, a]) => `<button type="button" class="gallery__item rv" data-full="assets/img/${f}.jpg" data-alt="${esc(a)}"><img src="assets/img/${f}.jpg" alt="${esc(a)}" loading="lazy" decoding="async"></button>`).join('')}</div>
+  </div>
+</section>
+`;
 const homeSteps = [['We meet them in person', 'Our team talks to every caretaker before they work with a family.'], ['We check their ID', 'We check Aadhaar and other documents.'], ['Trained for patient care', 'Bathing, feeding, lifting and medicines on time.'], ['Another person if needed', 'If someone cannot come, we send another trained person.']];
 const dos = ['Bathing, dressing and personal hygiene', 'Feeding and medicines on time', 'Help with walking and turning in bed', "Keeping the patient's room clean", 'Company through the day or night'];
 
@@ -323,6 +330,7 @@ page({
     <div class="faq-list" data-accordion>${faqItems(homeFaqs, true, 'hf')}</div>
   </div>
 </section>
+
 
 ${finalCallback('Talk to us', 'Talk to a care advisor', 'Tell us about the patient. We suggest the right care and tell you the price on the call.')}
 
@@ -494,33 +502,25 @@ page({
   title: 'About BestaCare', desc: 'BestaCare gives patient care at home from Navi Mumbai. A person answers, we meet every caretaker, and we stay in touch.',
   body: `
 ${pageHead([['index.html', 'Home'], ['', 'About']], 'About BestaCare', 'Patient care at home, from Navi Mumbai.')}
-<section class="sec" style="padding-block:72px">
+<section class="sec" style="padding:56px 0 32px">
   <div class="wrap" style="display:flex;gap:64px;align-items:center;flex-wrap:wrap">
     <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:16px;align-items:flex-start"><span class="eyebrow">Our story</span><h2 class="h-2">Why BestaCare started</h2>
-      <p class="owner-note">${ic('file-text')}Owner to add: the BestaCare story. Why it started, and who it helps.</p></div>
+      <p class="muted">Most families don't plan for the day a parent comes home from hospital, or a newborn needs help round the clock. It usually arrives suddenly, often at night. Then comes the hard part: who can we trust in our home?</p>
+      <p class="muted">In Koparkhairane and across Navi Mumbai we saw families searching through agents and phone numbers, never sure who would turn up or whether they were trained. BestaCare began to change that.</p>
+      <p class="muted">We train every caretaker, nurse and attendant before they work with a family. We check their identity and background. And we stay in touch after they start, because good care needs someone who answers when you call.</p>
+      <p class="muted">Today we help families with patient care, home nursing, elderly care and baby care, for a few hours, a night or round the clock, so you can go to work, rest or sleep knowing your loved one is in good hands.</p>
+      <blockquote class="founder-q"><span class="quote-ic">${ic('quote', 'i--28')}</span><p>Every family deserves care they don't have to worry about.</p><cite>Sharif Khan, Founder</cite></blockquote>
+    </div>
     <div class="team-photo" style="width:520px;max-width:100%;height:380px"><img src="${photo('train')}"${pos('train')} alt="Sample photo" loading="lazy"></div>
   </div>
 </section>
-<section class="sec sec--soft">
-  <div class="wrap" style="display:flex;gap:40px;align-items:center;flex-wrap:wrap">
-    <div class="ph-box ph-box--round">${ic('users', 'i--28')}<span>Photo of Sharif Khan</span></div>
-    <div style="flex:1;min-width:280px;display:flex;flex-direction:column;gap:16px;align-items:flex-start"><span class="quote-ic">${ic('quote', 'i--28')}</span><h2 class="h-3">A note from our owner</h2>
-      <p class="owner-note">${ic('file-text')}Owner to add: a short note from Sharif Khan to families.</p><p class="small">Sharif Khan, Owner</p></div>
-  </div>
-</section>
-<section class="sec">
+<section class="sec" style="padding-block:32px 56px">
   <div class="wrap" style="display:flex;flex-direction:column;gap:32px">
     <div class="heading"><span class="eyebrow">Our values</span><h2 class="h-2">How we work</h2></div>
     <div class="tiles tiles--4 values" style="gap:16px">${[['A person answers', 'You talk to our team, not a machine.', 'phone'], ['We meet every caretaker', 'No one goes to a family before we meet them.', 'user'], ['We stay in touch', 'If something is not right, call us. We fix it.', 'refresh'], ['Your choice matters', 'Ask for a male or female caretaker.', 'users']].map(([h, p, i]) => `<div class="tile rv"><span class="tile__ic">${ic(i, 'i--22')}</span><div><h3>${h}</h3><p>${p}</p></div></div>`).join('')}</div>
   </div>
 </section>
-<section class="sec">
-  <div class="wrap" style="display:flex;flex-direction:column;gap:32px">
-    <h2 class="h-2">Our team</h2>
-    <div class="tiles tiles--4 team-grid" style="gap:16px">${[1, 2, 3, 4].map(() => `<div><div class="ph-box">${ic('users', 'i--28')}<span>Photo</span></div><p style="font-weight:600;margin-top:12px">Team member name</p><p class="muted">Role</p></div>`).join('')}</div>
-    <p class="owner-note">${ic('file-text')}Owner to add: real names, roles and photos of the team.</p>
-  </div>
-</section>
+${gallery}
 ${finalCallback('Talk to us', 'Talk to our team', 'Tell us about the patient. We call you back.')}`,
 });
 
